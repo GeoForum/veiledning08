@@ -10,7 +10,7 @@ L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=nor
 }).addTo(map);
 */
 
-L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts?REQUEST=GetTile&VERSION=1.0.0&LAYER=norges_grunnkart&TILEMATRIXSET=EPSG%3A32633&TILEMATRIX=EPSG%3A32633%3A{z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng', {
+L.tileLayer('http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts?REQUEST=GetTile&VERSION=1.0.0&LAYER=norges_grunnkart_graatone&TILEMATRIXSET=EPSG%3A32633&TILEMATRIX=EPSG%3A32633%3A{z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng', {
     attribution: 'Kartverket'
 }).addTo(map);
 
@@ -36,14 +36,32 @@ csv('data/ru250m_2015.csv').get(function(error, data) {
     var ssbgrid = L.ssbgrid(data, {
         gridSize: '250m',
         ssbId: 'ru250m',
-        bounds: [[247800, 6635000], [275000, 6664000]],
-        style: {
-            stroke: false,
-            fillOpacity: 0.8
+        bounds: [[240000, 6630000], [280000, 6664000]],
+        style: function (data){
+            return {
+                color: getColor(data.pop_tot),
+                stroke: false,
+                fillOpacity: 0.8
+            };
         }
     }).addTo(map);
 
     map.fitBounds(ssbgrid.getBounds());
     //map.fitBounds(bounds);
 
+
+
 });
+
+// Max : 2324
+// Min : 1
+function getColor(d) {
+    return d > 1000 ? '#800026' :
+           d > 500  ? '#BD0026' :
+           d > 200  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
+                      '#FFEDA0';
+}
