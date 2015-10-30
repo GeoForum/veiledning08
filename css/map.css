@@ -1,0 +1,99 @@
+/* https://github.com/openlayers/ol3/blob/master/css/ol.css */
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Helvetica Neue',Arial,freesans,sans-serif;
+}
+html, body, .map {
+    height: 100%;
+}
+a {
+    text-decoration: none;
+}
+
+/* Legend style */
+.legend {
+    position: absolute;
+    background-color: #fff;
+    background-color: rgba(255,255,255,0.9);
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+}
+.legend h1 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+/* Control style */
+.ol-control {
+    background-color: rgba(0,0,0,0.35);
+    border-radius: 0;
+    padding: 0;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+}
+/*
+.ol-control:hover {
+    background-color: rgba(0,0,0,0.35);
+}
+*/
+.ol-control button {
+    border-radius: 0;
+    background-color: #fff;
+    color: #000;
+    margin: 0;
+    font-size: 1.1em;
+    height: 1.7em;
+    width: 1.7em;
+    line-height: 1.7em;
+    cursor: pointer;
+}
+
+.ol-control button:hover,
+.ol-control button:active,
+.ol-control button:focus {
+    background-color: #f6f6f6;
+    outline: 0;
+}
+
+/* Zoom control style */
+.ol-zoom:hover {
+    background-color: rgba(0,0,0,0.35);
+}
+.ol-zoom .ol-zoom-in,
+.ol-zoom .ol-zoom-out {
+    border-radius: 0;
+}
+
+.ol-zoom .ol-zoom-in {
+    margin-bottom: 1px;
+}
+
+/* Attribution style */
+.ol-attribution button {
+    font-size: 0.9em;
+}
+
+.ol-attribution ul li:first-child {
+    display: none;
+}
+
+
+/* Scale style
+.ol-scale-line {
+    top: 10px;
+    bottom: auto;
+    right: 10px;
+    left: auto;
+    background: transparent;
+    padding: 0;
+}
+.ol-scale-line .ol-scale-line-inner {
+    background-color: rgba(255,255,255,0.7);
+    color: #000;
+    border-color: #000;
+    font-size: 0.7em;
+    line-height: 1.7em;
+}
+*/
