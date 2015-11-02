@@ -42,7 +42,7 @@ var map = new ol.Map({
         center: [263006, 6651054],
         zoom: 11,
         minZoom: 8,
-        maxZoom: 14
+        maxZoom: 13
     })
 });
 
