@@ -32,7 +32,7 @@ var map = new ol.Map({
                     matrixIds: matrixIds
                 }),
                 attributions: [new ol.Attribution({
-                    html: 'Kartdata: <a href="http://kartverket.no/">Kartverket</a>'
+                    html: 'Utvikling: <a href="http://mastermaps.com/">MasterMaps</a> - Kartdata: <a href="http://kartverket.no/">Kartverket</a>'
                 })]
             })
         })
