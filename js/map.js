@@ -82,7 +82,7 @@ csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
         return [
             new ol.style.Style({
                 fill: new ol.style.Fill({
-                    color: [rgb.r, rgb.g, rgb.b, 0.7]
+                    color: [rgb.r, rgb.g, rgb.b, 0.6]
                 }),
                 geometry: new ol.geom.Polygon([[
                     [x,y], [x, y + gridSize], [x + gridSize, y + gridSize], [x + gridSize, y]
@@ -107,7 +107,7 @@ csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
                     width: 10 / resolution
                 }),
                 fill: new ol.style.Fill({
-                    color: [rgb.r, rgb.g, rgb.b, 0.7]
+                    color: [rgb.r, rgb.g, rgb.b, 0.6]
                 }),
                 geometry: new ol.geom.Polygon([[
                     [x,y], [x, y + gridSize], [x + gridSize, y + gridSize], [x + gridSize, y]
@@ -219,7 +219,6 @@ function createLegend (colorScale) {
 
     svg.call(xAxis);
 }
-
 
 // From https://github.com/substack/point-in-polygon, MIT licence
 // Ray-casting algorithm based on
