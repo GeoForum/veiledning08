@@ -15,7 +15,6 @@ for (var z = 0; z < 15; ++z) {
     matrixIds[z] = epsgCode + ':' + z;
 }
 
-
 var map = new ol.Map({
     layers: [
         new ol.layer.Tile({
