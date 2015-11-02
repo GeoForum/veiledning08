@@ -1,7 +1,3 @@
-// http://openlayersbook.github.io/
-// http://openlayers.org/en/v3.10.1/examples/select-features.html
-// http://openlayers.org/en/v3.10.1/apidoc/ol.interaction.Select.html
-
 var gridSize = 100,          // 100 m
     epsgCode = 'EPSG:32633', // UTM 33N
     projection = ol.proj.get(epsgCode),
@@ -10,7 +6,6 @@ var gridSize = 100,          // 100 m
     resolutions = [],
     matrixIds = [],
     population = 0,
-    numCells = 0,
     numberFormat = function (n) { // Thousand seperator
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     };
@@ -55,7 +50,6 @@ var map = new ol.Map({
 var scaleLineControl = new ol.control.ScaleLine();
 
 map.addControl(scaleLineControl);
-
 
 var colorScale = d3.scale.threshold()
     .domain([20, 50, 100, 200, 300, 400, 500]) // max = 617
@@ -133,12 +127,7 @@ csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
     map.addLayer(gridLayer);
 
     // Create grid select interaction
-    // http://openlayers.org/en/v3.10.1/apidoc/ol.interaction.Select.html
-    // http://openlayers.org/en/v3.10.1/apidoc/ol.events.condition.html
     var gridSelect = new ol.interaction.Select({
-        // http://openlayers.org/en/v3.10.1/apidoc/ol.events.condition.html
-        condition: ol.events.condition.never, // ol.events.condition.doubleClick, // singleClick
-        //toggleCondition: ol.interaction.condition.shiftKeyOnly,
         style: gridSelectStyle
     });
 
@@ -147,63 +136,66 @@ csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
 
     selectedGridCells.on('add', function (feature) {
         population += parseInt(feature.element.getProperties().sum);
-        showPopulation(population, ++numCells);
+        showPopulation(population);
     });
 
     selectedGridCells.on('remove', function (feature) {
         population -= parseInt(feature.element.getProperties().sum);
-        showPopulation(population, --numCells);
+        showPopulation(population);
     });
 
     // Add select interaction to map
     map.addInteraction(gridSelect);
 
-    gridSelect.on('select', function(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        //var feature = evt.target.getFeatures().getLength();
-        console.log("click");
-
-    });
-
-    // http://openlayers.org/en/v3.10.1/apidoc/ol.interaction.Draw.html
     var draw = new ol.interaction.Draw({
         type: 'Polygon'
     });
-
-    map.addInteraction(draw);
 
     draw.on('drawstart', function (evt) {
         selectedGridCells.clear();
     });
 
-
-    // http://openlayersbook.github.io/ch08-interacting-with-your-map/example-07.html
-    // TODO: Possible to get coordinates while drawing?
     draw.on('drawend', function (evt) {
         var geometry = evt.feature.getGeometry(),
             extent = geometry.getExtent(),
             drawCoords = geometry.getCoordinates()[0];
+
+        map.removeInteraction(draw);
+        d3.select('.info .intro').style('display', 'block');
+        d3.select('.info .select').style('display', 'none');
 
         grid.forEachFeatureIntersectingExtent(extent, function(feature) {
             if (pointInPolygon(feature.getGeometry().getCoordinates(), drawCoords)) {
                 selectedGridCells.push(feature);
             }
         });
+
+        setTimeout(function(){ // Add delay to avoid deselect
+            gridSelect.setActive(true);
+        }, 500);
+    });
+
+    d3.select('.info a').on('click', function(){
+        d3.event.preventDefault();
+        selectedGridCells.clear();
+        gridSelect.setActive(false);
+        map.addInteraction(draw);
+        d3.select('.info .intro').style('display', 'none');
+        d3.select('.info .select').style('display', 'block');
     });
 
 });
 
 
-function showPopulation (population, numCells) {
-    d3.select('.legend span').text(numberFormat(population) + ' (' + numCells * 0.01 + ' km²)');
+function showPopulation (population) {
+    d3.select('.info span').text(numberFormat(population));
 }
 
 // Based on http://bl.ocks.org/mbostock/4573883
 function createLegend (colorScale) {
     var x = d3.scale.linear()
         .domain([0, 617])
-        .range([0, 300]);
+        .range([0, 340]);
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -211,9 +203,7 @@ function createLegend (colorScale) {
         .tickSize(14)
         .tickValues(colorScale.domain());
 
-    var svg = d3.select('.legend').append("svg")
-        .attr('width', 300)
-        .attr('height', 25);
+    var svg = d3.select('svg.legend');
 
     svg.selectAll('rect')
         .data(colorScale.range().map(function(color) {
@@ -259,17 +249,10 @@ function ssbgrid2geojson (data, size, ssbid) {
         features: []
     };
 
-    //var total = 0;
-    //var max = 0;
-
     data.forEach(function(d){
         var id = d[ssbid],
             x = parseInt(id.substring(0, 7)) - 2000000, // First seven digits minus false easting
             y = parseInt(id.substring(7, 14)); // Last seven digits
-
-        //total += parseInt(d.sum);
-        //if (parseInt(d.sum) > max) max = parseInt(d.sum);
-        // console.log(max, parseInt(d.sum));
 
         points.features.push({
             type: 'Feature',
@@ -282,8 +265,5 @@ function ssbgrid2geojson (data, size, ssbid) {
         });
     });
 
-    //console.log("max", max);
-
     return points;
 }
-

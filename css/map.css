@@ -17,7 +17,7 @@ a {
 }
 
 /* Legend style */
-.legend {
+.info {
     position: absolute;
     background-color: #fff;
     background-color: rgba(255,255,255,0.9);
@@ -25,12 +25,27 @@ a {
     left: 10px;
     padding: 10px;
 }
-.legend h1 {
+.info h1 {
     margin: 0;
     font-size: 1.2em;
 }
-
-
+.info a {
+    border-bottom: 1px #333 dashed;
+}
+.info .select {
+    display: none;
+}
+.info .hand {
+    float: left;
+    padding-right: 5px;
+}
+.info span {
+    font-weight: bold;
+}
+.info .small {
+    font-size: 0.7em;
+    margin: 7px 0 0;
+}
 
 /* Control style */
 .ol-control {

@@ -1,17 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Innbyggere i Oslo kommune</title>
     <link rel="stylesheet" href="http://openlayers.org/en/v3.10.1/css/ol.css" type="text/css">
     <link rel="stylesheet" href="css/map.css" type="text/css">
-    <title>Innbyggere i Oslo kommune</title>
 </head>
 <body>
 
 <div id="map" class="map"></div>
-<div class="legend">
+<div class="info">
     <h1>Innbyggere i Oslo kommune</h1>
-    <p>Sjekk hvor mange som bor i ulike deler av Oslo.<br/>Hver rute er 100 x 100 meter. </p>
-    <p>Bosatte i markert område: <span>xxx</span></p>
+    <p class="intro">Sjekk hvor mange som bor i ulike deler av Oslo.<br/>Klikk på en rute eller <a href="" title="Klikk for å starte">marker et område</a>.</p>
+    <p class="select"><img class="hand" src="img/click.svg" width="40px">Klikk i kartet for å markere et område.<br/>Klikk på første punkt for å avslutte.</p>
+    <p>Bosatte i markert område: <span>0</span></p>
+    <svg class="legend" width="340" height="25"></svg>
+    <p class="small">Hver rute er 100 x 100 meter. Total befolkning for Oslo er 640 797.</p>
 </div>
 
 <script src="http://openlayers.org/en/v3.10.1/build/ol-debug.js"></script>
