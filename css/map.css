@@ -8,6 +8,10 @@ body {
 html, body, .map {
     height: 100%;
 }
+p {
+    margin-top: 0;
+    line-height:  1.4em;
+}
 a {
     text-decoration: none;
 }
@@ -25,6 +29,8 @@ a {
     margin: 0;
     font-size: 1.2em;
 }
+
+
 
 /* Control style */
 .ol-control {
@@ -71,6 +77,10 @@ a {
 }
 
 /* Attribution style */
+.ol-attribution {
+    background: rgba(255,255,255,1)!important;
+    z-index: 100;
+}
 .ol-attribution button {
     font-size: 0.9em;
 }
@@ -80,11 +90,9 @@ a {
 }
 
 
-/* Scale style
+/* Scale style */
 .ol-scale-line {
-    top: 10px;
-    bottom: auto;
-    right: 10px;
+    right: 43px;
     left: auto;
     background: transparent;
     padding: 0;
@@ -96,4 +104,23 @@ a {
     font-size: 0.7em;
     line-height: 1.7em;
 }
-*/
+
+
+
+
+svg {
+    font: 10px sans-serif;
+}
+
+.caption {
+    font-weight: bold;
+}
+
+svg path {
+    display: none;
+}
+
+svg line {
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
