@@ -56,8 +56,10 @@ var colorScale = d3.scale.threshold()
 
 createLegend(colorScale);
 
+// Column separator used in dataset from SSB
 var csv = d3.dsv(' ', 'text/plain');
 
+// Read and convert data to JavaScript object
 csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
 
     // Convert to GeoJSON
