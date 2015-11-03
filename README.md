@@ -4,4 +4,7 @@
 
 ![Befolkningskart for Oslo](img/oslopop.gif)
 
+Bildet over viser kartet vi skal lage. Vi skal legge befolkningsdata i ruter på 100 x 100 m oppå bakgrunnskart fra Kartverket. Brukeren kan selv markere et område for å se antall innbyggere. I Oslo har det vært stor diskusjon rundt bilfritt sentrum, og med dette kartet kan du selv se hvor mange personer som bor i de berørte områdene. <a href="http://geoforum.github.io/veiledning08/">Klikk her for å gå til det ferdige kartet</a>.
+
+
 
