@@ -62,6 +62,8 @@ var csv = d3.dsv(' ', 'text/plain');
 // Read and convert data to JavaScript object
 csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
 
+    console.log(data);
+
     // Convert to GeoJSON
     var geojson = ssbgrid2geojson(data, gridSize, 'rute_100m');
 

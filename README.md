@@ -92,6 +92,32 @@ rute_100m sum
 22538006662300 16
 22538006662700 12
 22539006662300 5
-...
- 
+... 
 ```
+
+CSV er et kompakt format som egner seg godt til dataoverføring. Her inneholder første kolonne id'er til hver rute, og andre kolonne angir hvor mange som bor innenfor ruta. For å lese disse dataene kan vi bruke biblioteket <a href="http://d3js.org/">D3.js</a> som inneholder en rekke nyttige funksjoner for datavisualisering.
+
+```javascript
+// Angi tegn som skiller kolonner
+var csv = d3.dsv(' ', 'text/plain');
+
+// Les og konverter til JavaScript-objekt
+csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
+    ...
+});
+```
+
+Vi angir først hvilket tegn (mellomrom) som skiller kolonnene. Etter at dataene er lest inn, konverteres de til et JavaScript-objekt i dette formatet: 
+
+```
+[{
+  rute_100m: "22536006661600"
+  sum: "9"
+},{
+  rute_100m: "22536006661700"
+  sum: "7"
+},{
+...
+}]
+```
+
