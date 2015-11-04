@@ -333,4 +333,6 @@ function pointInPolygon (point, vs) {
 
 Her oppretter vi et nytt verktøy for å markere vilkårlige områder (polygoner). Når et område er markert henter vi først ut ruter som er innenfor en tenkt firkant rundt polygonet (extent), som OpenLayers har innebygd støtte for. For å finne de faktiske rutene hvor senterpunktet er innenfor polygonen bruker vi en <a href="https://github.com/substack/point-in-polygon">"punkt-i-polygon" funksjon</a>. 
 
+[![Innbyggere på Bygdøy](img/bygdoy.png)](http://geoforum.github.io/veiledning08/)
+
 Vi er nå <a href="http://geoforum.github.io/veiledning08/">ferdige med kartet</a>, og den fullstendige JavaScript-koden <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/map.js">finner du her</a>. 
