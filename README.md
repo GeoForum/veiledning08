@@ -101,13 +101,13 @@ CSV er et kompakt format som egner seg godt til dataoverføring. Her inneholder 
 // Angi tegn som skiller kolonner
 var csv = d3.dsv(' ', 'text/plain');
 
-// Les og konverter til JavaScript-objekt
+// Les og konverter til JavaScript-array
 csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
     ...
 });
 ```
 
-Vi angir først hvilket tegn (mellomrom) som skiller kolonnene. Etter at dataene er lest inn, konverteres de til et JavaScript-objekt i dette formatet: 
+Vi angir først hvilket tegn (mellomrom) som skiller kolonnene. Etter at dataene er lest inn, konverteres de til en JavaScript-array i dette formatet: 
 
 ```
 [{
@@ -121,3 +121,38 @@ Vi angir først hvilket tegn (mellomrom) som skiller kolonnene. Etter at dataene
 }]
 ```
 
+Id'en på 14 siffer innholder koordinatene til det sørvestre hjørnet til ruta, og vi kan bruke denne informasjonen til å lage et rutenett i et format som OpenLayers forstår. Vi bruker her <a href="http://geojson.org/">GeoJSON</a> som er mye brukt for webbaserte kart. 
+
+```javascript
+
+var geojson = ssbgrid2geojson(data, 100, 'rute_100m');
+
+function ssbgrid2geojson (data, size, ssbid) {
+    var points = {
+        type: 'FeatureCollection',
+        features: []
+    };
+
+    data.forEach(function(d){
+        var id = d[ssbid],
+            x = parseInt(id.substring(0, 7)) - 2000000, // First seven digits minus false easting
+            y = parseInt(id.substring(7, 14)); // Last seven digits
+
+        points.features.push({
+            type: 'Feature',
+            id: id,
+            properties: d,
+            geometry: {
+                type: 'Point',
+                coordinates: [x + size / 2, y + size / 2]
+            }
+        });
+    });
+
+    return points;
+}
+```
+
+Koden over genererer GeoJSON-data fra SSB-data. De 7 første sifferene minus 200000 (<a href="https://www.ssb.no/natur-og-miljo/artikler-og-publikasjoner/statistical-grids-for-norway">les hvorfor her</a>) angir x-koordinatet, mens de siste 7 sifferene er y-koordinatet i UTM 33. Vi lager et punkt for hver rute hvor vi plasserer koordinatet i midten. Her kunne vi også returnert et firkanta polygon for hver rute, men vi velger å lage disse på en annen måte. 
+  
+  
