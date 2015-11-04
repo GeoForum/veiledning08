@@ -16,7 +16,7 @@ Det er utviklet en <a href="https://www.ssb.no/natur-og-miljo/artikler-og-publik
 Statistikk på rutenett kan gjøre geografiske analyser enklere. Her kan du lese <a href="https://nrkbeta.no/2015/06/25/slik-undersokte-nrk-radonkartene/">hvordan NRK brukte SSB-data på rutenett for å finne befolkning og bygningsmasse i områder med høy radonfare</a>. Tilsvarende kan befolkningsdata brukes til å analysere kundegrunnlaget for butikker, finne beste lokalisering av holdeplasser eller dekningsgrad for mobiltelefoni. Rutenett vil ofte vil være mer detaljert enn andre enheter som kommuner og bydeler, og bedre egnet til å vise endringer over tid siden rutenettet ikke påvirkes av kommunesammenslåinger etc. 
   
 ### OpenLayers med bakgrunnskart fra Kartverket
-Rutenettet fra SSB er i kartprojeksjonen UTM 33N som du kan lese mer om i <a href="https://github.com/GeoForum/veiledning05">veiledning 5</a>. For å sikre at rutene viser rett skal vi bruke samme projeksjon i vårt kart. Kartverket tilbyr <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">flere kart</a> i denne projeksjonen, og de har også lagt ut <a href="https://github.com/kartverket/example-clients">eksempler på bruk for ulike verktøy</a>. Her skal vi bruke <a href="http://openlayers.org/">OpenLayers 3</a>, som er blant kartbibliotekene med best støtte for ulike projeksjoner.  
+Rutenettet fra SSB er i kartprojeksjonen UTM 33N som du kan lese mer om i <a href="https://github.com/GeoForum/veiledning05">veiledning 5</a>. For å sikre at rutene vises rett skal vi bruke samme projeksjon i vårt kart. Kartverket tilbyr <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">flere kart</a> i denne projeksjonen, og de har også lagt ut <a href="https://github.com/kartverket/example-clients">eksempler på bruk for ulike verktøy</a>. Her skal vi bruke <a href="http://openlayers.org/">OpenLayers 3</a>, som er blant kartbibliotekene med best støtte for ulike projeksjoner.  
 
 [![Bakgrunnskart for Oslo](img/basemap.png)](http://geoforum.github.io/veiledning08/kartverket.html)
 
@@ -72,7 +72,7 @@ var map = new ol.Map({
 Kort forklaring av <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/kartverket.js">koden</a> over:
 - "<a href="http://epsg.io/32633">EPSG:32633</a>" er en standardisert måte å angi UTM 33N på. 
 - Vi laster inn bakgrunnskartet "norges_grunnkart_graatone" som <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">pregenererte kartfliser</a> (tiles på engelsk) på 256x256 pixler i definerte målestokker (resolutions).
-- Til slutt definerer hva som skal være utgangsposisjonen i kartet i form av et senterpunkt og et zoomnivå. Senterpunktet er angitt i UTM 33-koordinater  
+- Til slutt definerer hva som skal være utgangsposisjonen i kartet i form av et senterpunkt og et zoomnivå. Senterpunktet er angitt med UTM 33-koordinater  
 
 [![UTM 33-koordinater for Oslo](img/norgeskart.png)](http://norgeskart.no/)
 
@@ -95,7 +95,7 @@ rute_100m sum
 ... 
 ```
 
-CSV er et kompakt format som egner seg godt til dataoverføring. Her inneholder første kolonne id'er til hver rute, og andre kolonne angir hvor mange som bor innenfor ruta. For å lese disse dataene kan vi bruke biblioteket <a href="http://d3js.org/">D3.js</a> som inneholder en rekke nyttige funksjoner for datavisualisering.
+Her inneholder første kolonne id'er til hver rute, og andre kolonne angir hvor mange som bor innenfor ruta. For å lese disse dataene kan vi bruke biblioteket <a href="http://d3js.org/">D3.js</a> som inneholder en rekke nyttige funksjoner for datavisualisering.
 
 ```javascript
 // Angi tegn som skiller kolonner
@@ -173,9 +173,9 @@ var gridLayer = new ol.layer.Vector({
 map.addLayer(gridLayer);
 ```
 
-Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil da vises oppå bakgrunnskartet fra Kartverket. 
+Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil vises oppå bakgrunnskartet fra Kartverket. 
 
-### Fargeskala som viser forskjeller i befolkningstetthet 
+### Fargeskala med D3.js
 
 Vi kan bruke D3.js til å lage en fargeskala fra gul til rød for å angi høyere befolkningstetthet:
 
@@ -331,7 +331,7 @@ function pointInPolygon (point, vs) {
 }
 ```  
 
-Her oppretter vi et nytt verktøy for å markere vilkårlige områder (polygoner). Når et område er markert henter vi først ut ruter som er innenfor en tenkt firkant rundt polygonet (extent), som OpenLayers har innebygd støtte for. For å finne de faktiske rutene hvor senterpunktet er innenfor polygonen bruker vi en <a href="https://github.com/substack/point-in-polygon">"punkt-i-polygon" funksjon</a>. 
+Her oppretter vi et tegneverktøy for å markere vilkårlige områder (polygoner) i kartet. Når et område er markert henter vi først ut ruter som er innenfor en tenkt firkant rundt polygonet (extent). For å finne de faktiske rutene hvor senterpunktet er innenfor polygonet bruker vi videre en <a href="https://github.com/substack/point-in-polygon">"punkt-i-polygon" funksjon</a>. 
 
 [![Innbyggere på Bygdøy](img/bygdoy.png)](http://geoforum.github.io/veiledning08/)
 
