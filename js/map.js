@@ -39,7 +39,7 @@ var map = new ol.Map({
     target: 'map',
     view: new ol.View({
         projection: projection,
-        center: [263006, 6651054],
+        center: [262985, 6651604],
         zoom: 11,
         minZoom: 8,
         maxZoom: 13

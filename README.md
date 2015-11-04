@@ -61,7 +61,7 @@ var map = new ol.Map({
     ],
     view: new ol.View({
         projection: projection,
-        center: [263006, 6651054],
+        center: [262985, 6651604],
         zoom: 11,
         minZoom: 8,
         maxZoom: 13
@@ -71,7 +71,7 @@ var map = new ol.Map({
 
 Kort forklaring av <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/kartverket.js">koden</a> over:
 - "<a href="http://epsg.io/32633">EPSG:32633</a>" er en standardisert måte å angi UTM 33N på. 
-- Vi laster inn bakgrunnskartet "norges_grunnkart_graatone" som <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">pregenererte kartfliser</a> (tiles på engelsk) på 256x256 pixler i predefinerte målestokker (zoomnivåer).
+- Vi laster inn bakgrunnskartet "norges_grunnkart_graatone" som <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">pregenererte kartfliser</a> (tiles på engelsk) på 256x256 pixler i definerte målestokker (resolutions).
 - Til slutt definerer hva som skal være utgangsposisjonen i kartet i form av et senterpunkt og et zoomnivå. Senterpunktet er angitt i UTM 33-koordinater  
 
 [![UTM 33-koordinater for Oslo](img/norgeskart.png)](http://norgeskart.no/)
