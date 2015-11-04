@@ -175,6 +175,8 @@ map.addLayer(gridLayer);
 
 Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil da vises oppå bakgrunnskartet fra Kartverket. 
 
+### Fargeskala som viser forskjeller i befolkningstetthet 
+
 Vi kan bruke D3.js til å lage en fargeskala fra gul til rød for å angi høyere befolkningstetthet:
 
 ```javascript
@@ -183,9 +185,9 @@ var colorScale = d3.scale.threshold()
     .range(['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026']);
 ```
     
-Vi bruker her skala basert på terskler (threshold) slik at alle verdier innenfor et intervall får samme farge. Vi brukes også D3 til å lage en tegnforklaring basert på vår fargeskala:
+Vi bruker her skala basert på terskler (threshold) slik at alle verdier innenfor et intervall får samme farge. Vi bruker også D3 til å lage en tegnforklaring basert på vår fargeskala:
 
-[![Rutenett som GeoJSON](img/legend.png)]  
+![Tegnforklaring](img/legend.png)
 
 ```javascript
 function createLegend (colorScale) {
@@ -218,4 +220,119 @@ function createLegend (colorScale) {
 }
 ```
 
-Høyeste verdi i datasettet er 617 personer.     
+Vi kan nå fargelegge rutene i kartet gjennom en funksjon som kalles for hvert punkt eller rad i datasettet fra SSB: 
+     
+```javascript     
+var gridStyle = function (feature) {
+    var coordinate = feature.getGeometry().getCoordinates(),
+        x = coordinate[0] - gridSize / 2,
+        y = coordinate[1] - gridSize / 2,
+        pop = parseInt(feature.getProperties().sum),
+        rgb = d3.rgb(colorScale(pop));
+
+    return [
+        new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: [rgb.r, rgb.g, rgb.b, 0.6]
+            }),
+            geometry: new ol.geom.Polygon([[
+                [x,y], [x, y + gridSize], [x + gridSize, y + gridSize], [x + gridSize, y]
+            ]])
+        })
+    ];
+};   
+  
+var gridLayer = new ol.layer.Vector({
+    source: grid,
+    style: gridStyle
+});  
+  
+
+Til denne funksjonen sendes det inn et GeoJSON-punkt som koordinater og befolkningsverdi hentes fra. Disse brukes videre til å tegne et firkanta polygon for hver rute med farge basert på verdien. Rutene er også gjort gjennomsiktige slik at vi kan skimte bakgrunnskartet igjennom. Dette gjør det lettere å orientere seg, men det fører også at fargene ikke stemmer helt med tegnforklaringen. Et alternativ vil være å vise veier og stedsnavn oppå rutenettet. 
+
+![Rutenett med farger](img/grid.png)
+
+### Markering av ruter i kartet
+
+Til slutt skal vi gjøre det mulig å markere et område for å se hvor mange som bor innenfor disse rutene. De valgte rutene vises med en svart ramme rundt rutene hvor tykkelsen varierer med zoomnivå (resolution): 
+
+```javascript 
+// gridSelectStyle
+stroke: new ol.style.Stroke({
+  color: '#333',
+  width: 10 / resolution
+})
+```  
+
+Dette er koden som kreves for å velge ruter ved å klikke på dem: 
+
+```javascript 
+var gridSelect = new ol.interaction.Select({
+  style: gridSelectStyle
+});
+
+var selectedGridCells = gridSelect.getFeatures();
+
+selectedGridCells.on('add', function (feature) {
+    population += parseInt(feature.element.getProperties().sum);
+    showPopulation(population);
+});
+
+selectedGridCells.on('remove', function (feature) {
+    population -= parseInt(feature.element.getProperties().sum);
+    showPopulation(population);
+});
+
+map.addInteraction(gridSelect);
+```  
+
+Hver gang en rute legges til eller fjernes vil befolkningsverdien oppdateres og vises til brukeren. 
+
+[Animert GIF]
+
+Hold shift-tasten nede for å velge flere ruter. 
+
+For å kunne markere et større område kan vi bruke tegneverkøyet i OpenLayers: 
+
+```javascript 
+var draw = new ol.interaction.Draw({
+    type: 'Polygon'
+});
+
+draw.on('drawstart', function (evt) {
+    selectedGridCells.clear();
+});
+
+draw.on('drawend', function (evt) {
+    var geometry = evt.feature.getGeometry(),
+        extent = geometry.getExtent(),
+        drawCoords = geometry.getCoordinates()[0];
+
+    grid.forEachFeatureIntersectingExtent(extent, function(feature) {
+        if (pointInPolygon(feature.getGeometry().getCoordinates(), drawCoords)) {
+            selectedGridCells.push(feature);
+        }
+    });
+});
+
+function pointInPolygon (point, vs) {
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+}
+```  
+
+Her oppretter vi et nytt verktøy for å markere vilkårlige områder (polygoner). Når et område er markert henter vi først ut ruter som er innenfor en tenkt firkant rundt polygonet (extent), som OpenLayers har innebygd støtte for. For å finne de faktiske rutene hvor senterpunktet er innenfor polygonen bruker vi en <a href="https://github.com/substack/point-in-polygon">"punkt-i-polygon" funksjon</a>. 
+
+Vi er nå <a href="http://geoforum.github.io/veiledning08/">ferdige med kartet</a>, og den fullstendige JavaScript-koden <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/map.js">finner du her</a>. 
+
+<a href="mailto:bjorn@mastermaps.com">Tips meg gjerne</a> hvis du bruker denne veiledningen til å lage rutenettbaserte visualiseringer, så kan vi oppdatere denne siden med flere eksempler.  
