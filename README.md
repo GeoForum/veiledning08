@@ -335,4 +335,4 @@ Her oppretter vi et nytt verktøy for å markere vilkårlige områder (polygoner
 
 [![Innbyggere på Bygdøy](img/bygdoy.png)](http://geoforum.github.io/veiledning08/)
 
-Vi er nå <a href="http://geoforum.github.io/veiledning08/">ferdige med kartet</a>, og den fullstendige JavaScript-koden <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/map.js">finner du her</a>. 
+Vi er nå <a href="http://geoforum.github.io/veiledning08/">ferdige med kartet</a>, og den fullstendige JavaScript-koden <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/map.js">finner du her</a>. I <a href="https://github.com/GeoForum/veiledning09">veiledning 9</a> bruker vi det samme datasettet til å lage en 3D-visualisering av befolkningen i Oslo. 
