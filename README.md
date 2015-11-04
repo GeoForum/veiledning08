@@ -124,7 +124,6 @@ Vi angir først hvilket tegn (mellomrom) som skiller kolonnene. Etter at dataene
 Id'en på 14 siffer innholder koordinatene til det sørvestre hjørnet til ruta, og vi kan bruke denne informasjonen til å lage et rutenett i et format som OpenLayers forstår. Vi bruker her <a href="http://geojson.org/">GeoJSON</a> som er mye brukt for webbaserte kart. 
 
 ```javascript
-
 var geojson = ssbgrid2geojson(data, 100, 'rute_100m');
 
 function ssbgrid2geojson (data, size, ssbid) {
@@ -157,4 +156,21 @@ Koden over genererer GeoJSON-data fra SSB-data. De 7 første sifferene minus 2 0
   
 [![Rutenett som GeoJSON](img/geojson.png)](http://geoforum.github.io/veiledning08/geojson.html)  
 
-OpenLayers vil <a href="http://geoforum.github.io/veiledning08/geojson.html">vise rutenettet på denne måten</a>, hvis vi ikke angir hvordan hver rute skal se ut. 
+OpenLayers vil <a href="http://geoforum.github.io/veiledning08/geojson.html">vise rutenettet på denne måten</a>, hvis vi ikke angir hvordan hver rute skal se ut. Dette er koden som lager kartet over:
+
+```javascript
+var grid = new ol.source.Vector({
+    features: (new ol.format.GeoJSON()).readFeatures(geojson),
+    attributions: [new ol.Attribution({
+        html: '<a href="http://ssb.no/">SSB</a>'
+    })]
+});
+
+var gridLayer = new ol.layer.Vector({
+    source: grid
+});
+
+map.addLayer(gridLayer);
+```
+
+Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil da vises oppå bakgrunnskartet fra Kartverket.  

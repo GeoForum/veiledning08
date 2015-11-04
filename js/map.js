@@ -94,7 +94,6 @@ csv('data/Oslo_bef_100m_2015.csv').get(function(error, data) {
     };
 
     // Create grid selection style
-    // TODO: Possible to reuse above style?
     var gridSelectStyle = function (feature, resolution) {
         var coordinate = feature.getGeometry().getCoordinates(),
             x = coordinate[0] - gridSize / 2,
