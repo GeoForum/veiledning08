@@ -153,6 +153,6 @@ function ssbgrid2geojson (data, size, ssbid) {
 }
 ```
 
-Koden over genererer GeoJSON-data fra SSB-data. De 7 første sifferene minus 200000 (<a href="https://www.ssb.no/natur-og-miljo/artikler-og-publikasjoner/statistical-grids-for-norway">les hvorfor her</a>) angir x-koordinatet, mens de siste 7 sifferene er y-koordinatet i UTM 33. Vi lager et punkt for hver rute hvor vi plasserer koordinatet i midten. Her kunne vi også returnert et firkanta polygon for hver rute, men vi velger å lage disse på en annen måte. 
+Koden over genererer GeoJSON-data fra SSB-data. De 7 første sifferene minus 2 000 000 (<a href="https://www.ssb.no/natur-og-miljo/artikler-og-publikasjoner/statistical-grids-for-norway">les hvorfor her</a>) angir x-koordinatet, mens de siste 7 sifferene er y-koordinatet i UTM 33. Vi lager et punkt for hver rute hvor vi plasserer koordinatet i midten. Her kunne vi også returnert et firkanta polygon for hver rute, men vi velger å lage disse på en annen måte. 
   
-  
+[![Rutenett som GeoJSON](img/geojson.png)](http://geoforum.github.io/veiledning08/geojson.html)  
