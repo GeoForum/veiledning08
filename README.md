@@ -77,3 +77,21 @@ Kort forklaring av <a href="https://github.com/GeoForum/veiledning08/blob/gh-pag
 [![UTM 33-koordinater for Oslo](img/norgeskart.png)](http://norgeskart.no/)
 
 Tips: Du kan finne UTM 33-koordinater på <a href="http://norgeskart.no/">Norgeskart.no</a>. Klikk et sted i kartet og videre på i-symbolet. 
+
+### Hvordan lage et rutenett? 
+
+Hos SSB kan du laste ned både rutenett og statistikk som kan <a href="<https://github.com/GeoForum/veiledning02/blob/master/join.md">kobles sammen</a> med en felles id. Vi kan også lage dette rutenettet selv direkte i nettleseren, noe som gir en mye raskere dataoverføring. 
+
+Rutenettstatistikken fra SSB kan lastes ned som CSV-filer: 
+ 
+```
+rute_100m sum
+22536006661600 9
+22536006661700 7
+22536006662000 7
+22538006662300 16
+22538006662700 12
+22539006662300 5
+...
+ 
+```
