@@ -18,7 +18,52 @@ Statistikk på rutenett kan gjøre geografiske analyser enklere. Her kan du lese
 ### OpenLayers med bakgrunnskart fra Kartverket
 Rutenettet fra SSB er i kartprojeksjonen UTM 33N som du kan lese mer om i <a href="https://github.com/GeoForum/veiledning05">veiledning 5</a>. For å sikre at rutene viser rett skal vi bruke samme projeksjon i vårt kart. Kartverket tilbyr <a href="http://kartverket.no/Kart/Gratis-kartdata/Cache-tjenester/">flere kart</a> i denne projeksjonen, og de har også lagt ut <a href="https://github.com/kartverket/example-clients">eksempler på bruk for ulike verktøy</a>. Her skal vi bruke <a href="http://openlayers.org/">OpenLayers 3</a>, som er blant kartbibliotekene med best støtte for ulike projeksjoner.  
 
-Vi må legge til en definisjon av UTM 33N for at den skal støttes av OpenLayers. Denne <a href="https://github.com/MasterMaps/OpenLayers.UTM33N">definisjonen finner du her</a>, og <a href="https://github.com/MasterMaps/OpenLayers.UTM33N/blob/master/ol.proj.UTM33N.js">scriptet</a> lastes inn etter OpenLayers-biblioteket. Vi får da støtte for UTM-koordinater i OpenLayers. 
+Vi må legge til en definisjon av UTM 33N for at den skal støttes av OpenLayers. Denne <a href="https://github.com/MasterMaps/OpenLayers.UTM33N">definisjonen finner du her</a>, og <a href="https://github.com/MasterMaps/OpenLayers.UTM33N/blob/master/ol.proj.UTM33N.js">scriptet</a> lastes inn etter OpenLayers-biblioteket. Vi får da støtte for UTM-koordinater i OpenLayers:
+
+```javascript
+var epsgCode = 'EPSG:32633', // UTM 33N
+    projection = ol.proj.get(epsgCode),
+    projectionExtent = projection.getExtent(),
+    size = ol.extent.getWidth(projectionExtent) / 256,
+    resolutions = [],
+    matrixIds = [];
+
+for (var z = 0; z <= 13; ++z) {
+    resolutions[z] = size / Math.pow(2, z);
+    matrixIds[z] = epsgCode + ':' + z;
+}
+
+var map = new ol.Map({
+    target: 'map',
+    layers: [
+        new ol.layer.Tile({
+            title: 'Norges grunnkart',
+            source: new ol.source.WMTS({
+                url: 'http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts?',
+                layer: 'norges_grunnkart_graatone',
+                matrixSet: epsgCode,
+                format: 'image/png',
+                projection: projection,
+                tileGrid: new ol.tilegrid.WMTS({
+                    origin: ol.extent.getTopLeft(projection.getExtent()),
+                    resolutions: resolutions,
+                    matrixIds: matrixIds
+                }),
+                attributions: [new ol.Attribution({
+                    html: '<a href="http://kartverket.no/">Kartverket</a>'
+                })]
+            })
+        })
+    ],
+    view: new ol.View({
+        projection: projection,
+        center: [263006, 6651054],
+        zoom: 11,
+        minZoom: 8,
+        maxZoom: 13
+    })
+});
+```
 
 
 
