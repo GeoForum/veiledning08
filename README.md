@@ -75,3 +75,5 @@ Kort forklaring av <a href="https://github.com/GeoForum/veiledning08/blob/gh-pag
 - Til slutt definerer hva som skal være utgangsposisjonen i kartet i form av et senterpunkt og et zoomnivå. Senterpunktet er angitt i UTM 33-koordinater  
 
 [![UTM 33-koordinater for Oslo](img/norgeskart.png)](http://norgeskart.no/)
+
+Tips: Du kan finne UTM 33-koordinater på <a href="http://norgeskart.no/">Norgeskart.no</a>. Klikk et sted i kartet og videre på i-symbolet. 
