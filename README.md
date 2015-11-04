@@ -288,7 +288,7 @@ map.addInteraction(gridSelect);
 
 Hver gang en rute legges til eller fjernes vil befolkningsverdien oppdateres og vises til brukeren. 
 
-[Animert GIF]
+[![Befolkningskart for Oslo](img/select.gif)](http://geoforum.github.io/veiledning08/)
 
 Hold shift-tasten nede for å velge flere ruter. 
 
