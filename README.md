@@ -246,7 +246,7 @@ var gridLayer = new ol.layer.Vector({
     source: grid,
     style: gridStyle
 });  
-  
+```  
 
 Til denne funksjonen sendes det inn et GeoJSON-punkt som koordinater og befolkningsverdi hentes fra. Disse brukes videre til å tegne et firkanta polygon for hver rute med farge basert på verdien. Rutene er også gjort gjennomsiktige slik at vi kan skimte bakgrunnskartet igjennom. Dette gjør det lettere å orientere seg, men det fører også at fargene ikke stemmer helt med tegnforklaringen. Et alternativ vil være å vise veier og stedsnavn oppå rutenettet. 
 
@@ -334,5 +334,3 @@ function pointInPolygon (point, vs) {
 Her oppretter vi et nytt verktøy for å markere vilkårlige områder (polygoner). Når et område er markert henter vi først ut ruter som er innenfor en tenkt firkant rundt polygonet (extent), som OpenLayers har innebygd støtte for. For å finne de faktiske rutene hvor senterpunktet er innenfor polygonen bruker vi en <a href="https://github.com/substack/point-in-polygon">"punkt-i-polygon" funksjon</a>. 
 
 Vi er nå <a href="http://geoforum.github.io/veiledning08/">ferdige med kartet</a>, og den fullstendige JavaScript-koden <a href="https://github.com/GeoForum/veiledning08/blob/gh-pages/js/map.js">finner du her</a>. 
-
-<a href="mailto:bjorn@mastermaps.com">Tips meg gjerne</a> hvis du bruker denne veiledningen til å lage rutenettbaserte visualiseringer, så kan vi oppdatere denne siden med flere eksempler.  
