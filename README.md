@@ -173,4 +173,49 @@ var gridLayer = new ol.layer.Vector({
 map.addLayer(gridLayer);
 ```
 
-Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil da vises oppå bakgrunnskartet fra Kartverket.  
+Vi oppretter her et ny datakilde basert på våre GeoJSON-data, og legger dette til kartet. Det vil da vises oppå bakgrunnskartet fra Kartverket. 
+
+Vi kan bruke D3.js til å lage en fargeskala fra gul til rød for å angi høyere befolkningstetthet:
+
+```javascript
+var colorScale = d3.scale.threshold()
+    .domain([20, 50, 100, 200, 300, 400, 500]) 
+    .range(['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026']);
+```
+    
+Vi bruker her skala basert på terskler (threshold) slik at alle verdier innenfor et intervall får samme farge. Vi brukes også D3 til å lage en tegnforklaring basert på vår fargeskala:
+
+[![Rutenett som GeoJSON](img/legend.png)]  
+
+```javascript
+function createLegend (colorScale) {
+    var x = d3.scale.linear()
+        .domain([0, 617])
+        .range([0, 340]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom')
+        .tickSize(14)
+        .tickValues(colorScale.domain());
+
+    var svg = d3.select('svg.legend');
+
+    svg.selectAll('rect')
+        .data(colorScale.range().map(function(color) {
+            var d = colorScale.invertExtent(color);
+            if (d[0] == null) d[0] = x.domain()[0];
+            if (d[1] == null) d[1] = x.domain()[1];
+            return d;
+        }))
+        .enter().append('rect')
+        .attr('height', 10)
+        .attr("x", function(d) { return x(d[0]); })
+        .attr('width', function(d) { return x(d[1]) - x(d[0]); })
+        .style('fill', function(d) { return colorScale(d[0]); });
+
+    svg.call(xAxis);
+}
+```
+
+Høyeste verdi i datasettet er 617 personer.     
